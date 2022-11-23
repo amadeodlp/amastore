@@ -17,7 +17,7 @@ function useCart(product: Product, amount: number) {
     ? "Remove from cart"
     : "Add to cart";
 
-  return { updateCart, cartText };
+  return { updateCart, cartText, cart };
 }
 
 export default useCart;

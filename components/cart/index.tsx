@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, useTheme } from "@mui/material";
+import { Button, Slide, useTheme } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { StyledDrawer } from "./styles";
 import { CartItem } from "../../models/CartItem";
@@ -23,16 +23,20 @@ const Cart: React.FC<Props> = ({ list }) => {
           sx={{ color: theme.palette.common.white }}
         />
       </Button>
-      <StyledDrawer
-        hideBackdrop
-        open={cartVisible}
-        onClose={toggleCart}
-        onOpen={toggleCart}
-      >
-        {list.map((cartItem) => {
-          return <ProductCard item={cartItem} key={cartItem.id} />;
-        })}
-      </StyledDrawer>
+      <Slide direction="right" in={cartVisible}>
+        <StyledDrawer
+          hideBackdrop
+          variant="temporary"
+          elevation={0}
+          open={cartVisible}
+          onClose={toggleCart}
+          onOpen={toggleCart}
+        >
+          {list.map((cartItem) => {
+            return <ProductCard item={cartItem} key={cartItem.id} />;
+          })}
+        </StyledDrawer>
+      </Slide>
     </>
   );
 };

@@ -5,4 +5,6 @@ export const StyledDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   width: "25vw",
   backdropFilter: "none",
+  height: "100%",
+  overflow: "auto",
 }));

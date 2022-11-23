@@ -8,6 +8,7 @@ import { getProducts, getProductCategories } from "../store/products/actions";
 import Navbar from "../components/navbar";
 import { Container } from "@mui/material";
 import ProductGrid from "../components/productGrid";
+import Progress from "../components/progressBar";
 
 export default function Home() {
   const { products, categories, getProductsPending, getProductsFailed } =
@@ -27,7 +28,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar cartList={list} categories={categories} />
-      <ProductGrid products={products} />
+      {getProductsPending ? <Progress /> : <ProductGrid products={products} />}
     </Container>
   );
 }
