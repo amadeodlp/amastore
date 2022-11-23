@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
-import { Product } from "../../models/Product";
+import { CartItem } from "../../models/CartItem";
 
 export interface CartState {
-  list: Product[];
+  list: CartItem[];
 }
 
 const initialState: CartState = {
@@ -14,7 +14,7 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<Product>) => {
+    addToCart: (state, action: PayloadAction<CartItem>) => {
       state.list = state.list.concat(action.payload);
     },
     removeFromCart: (state, action: PayloadAction<number>) => {

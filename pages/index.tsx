@@ -4,20 +4,20 @@ import styles from "../styles/Home.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { useEffect } from "react";
-import getProducts from "../store/products/actions";
+import { getProducts, getProductCategories } from "../store/products/actions";
 import Navbar from "../components/navbar";
-import Grid from "../components/productGrid";
 import { Container } from "@mui/material";
+import ProductGrid from "../components/productGrid";
 
 export default function Home() {
-  const { products, getProductsPending, getProductsFailed } = useSelector(
-    (state: RootState) => state.products
-  );
+  const { products, categories, getProductsPending, getProductsFailed } =
+    useSelector((state: RootState) => state.products);
+  const { list } = useSelector((state: RootState) => state.cart);
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProducts());
-    console.log(products);
+    dispatch(getProductCategories());
   }, [dispatch]);
 
   return (
@@ -26,8 +26,8 @@ export default function Home() {
         <title>Amastore</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <Grid />
+      <Navbar cartList={list} categories={categories} />
+      <ProductGrid products={products} />
     </Container>
   );
 }

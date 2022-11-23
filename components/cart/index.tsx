@@ -1,28 +1,39 @@
-import React, { useState, Fragment } from "react";
-import { SwipeableDrawer, Button } from "@mui/material";
-import { FaShoppingCart as CartIcon } from "react-icons/fa";
-import { styles } from "./styles";
+import React, { useState } from "react";
+import { Button, useTheme } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { StyledDrawer } from "./styles";
+import { CartItem } from "../../models/CartItem";
+import ProductCard from "../productCard";
 
-type Props = {};
+type Props = {
+  list: CartItem[];
+};
 
-const Cart: React.FC<Props> = () => {
+const Cart: React.FC<Props> = ({ list }) => {
   const [cartVisible, setCartVisible] = useState<boolean>(false);
+  const theme = useTheme();
   const toggleCart = (): void => {
     setCartVisible(!cartVisible);
   };
   return (
-    <Fragment>
+    <>
       <Button onClick={toggleCart}>
-        <CartIcon />
+        <ShoppingCartIcon
+          fontSize="large"
+          sx={{ color: theme.palette.common.white }}
+        />
       </Button>
-      <SwipeableDrawer
-        anchor="right"
-        sx={styles.Container}
+      <StyledDrawer
+        hideBackdrop
         open={cartVisible}
         onClose={toggleCart}
         onOpen={toggleCart}
-      ></SwipeableDrawer>
-    </Fragment>
+      >
+        {list.map((cartItem) => {
+          return <ProductCard item={cartItem} key={cartItem.id} />;
+        })}
+      </StyledDrawer>
+    </>
   );
 };
 

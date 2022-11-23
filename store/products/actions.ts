@@ -4,9 +4,12 @@ import {
   getProductsFailed,
   getProductsPending,
   getProductsSuccess,
-} from "./reducers";
+  getProductCategoriesPending,
+  getProductCategoriesSuccess,
+  getProductCategoriesFailed,
+} from "./reducer";
 
-function getProducts() {
+export function getProducts() {
   return async (dispatch: AppDispatch): Promise<Product[]> => {
     dispatch(getProductsPending());
     try {
@@ -14,11 +17,24 @@ function getProducts() {
       const data: Product[] = await res.json();
       dispatch(getProductsSuccess(data));
       return Promise.resolve(data);
-    } catch (error: unknown) {
+    } catch (error) {
       dispatch(getProductsFailed(error));
       return Promise.reject(error);
     }
   };
 }
 
-export default getProducts;
+export function getProductCategories() {
+  return async (dispatch: AppDispatch): Promise<string[]> => {
+    dispatch(getProductCategoriesPending());
+    try {
+      const res = await fetch("api/categories");
+      const data: string[] = await res.json();
+      dispatch(getProductCategoriesSuccess(data));
+      return Promise.resolve(data);
+    } catch (error) {
+      dispatch(getProductCategoriesFailed(error));
+      return Promise.reject(error);
+    }
+  };
+}

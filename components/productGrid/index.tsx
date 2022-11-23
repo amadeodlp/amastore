@@ -1,9 +1,30 @@
+import { Grid, useTheme } from "@mui/material";
 import React from "react";
-import { Container } from "@mui/material";
+import { Product } from "../../models/Product";
+import ProductCard from "../productCard";
 
-type Props = {};
-const Grid: React.FC<Props> = () => {
-  return <Container>index</Container>;
+type Props = {
+  products: Product[];
 };
 
-export default Grid;
+const ProductGrid: React.FC<Props> = ({ products }): any => {
+  const theme = useTheme();
+  return (
+    <Grid
+      container
+      sx={{ marginTop: theme.spacing(8) }}
+      rowSpacing={1}
+      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+    >
+      {products.map((item: Product) => {
+        return (
+          <Grid item xs={6} key={item.id}>
+            <ProductCard item={item} />
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
+};
+
+export default ProductGrid;
