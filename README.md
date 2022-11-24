@@ -1,6 +1,7 @@
 A shopping cart aplication, created by amadeodlp
+It can be tested in https://amastore-sepia.vercel.app/
 
-To launch:
+To launch in local:
 
 First, run the development server,
 
