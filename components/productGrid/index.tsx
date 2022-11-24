@@ -18,7 +18,7 @@ const ProductGrid: React.FC<Props> = ({ products }): any => {
     >
       {products.map((item: Product) => {
         return (
-          <Grid item xs={6} key={item.id}>
+          <Grid item xs={12} sm={6} key={item.id}>
             <ProductCard item={item} />
           </Grid>
         );

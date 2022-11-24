@@ -60,7 +60,7 @@ const Navbar: React.FC<Props> = ({ cartList, categories }) => {
             href="/"
             sx={{
               mr: 2,
-              display: { md: "none", lg: "flex" },
+              display: { xs: "none", lg: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
