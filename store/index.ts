@@ -1,9 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Action, ThunkAction } from "@reduxjs/toolkit";
 import cartSlice from "./cart/reducer";
 import productsSlice from "./products/reducer";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-import thunk from "redux-thunk";
 
 const persistConfig = {
   key: "cart",
@@ -17,7 +16,6 @@ const store = configureStore({
     products: productsSlice,
     cart: persistedReducer,
   },
-  middleware: [thunk],
 });
 export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;

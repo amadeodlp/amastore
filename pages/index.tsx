@@ -1,20 +1,19 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store";
+import { useAppSelector, useAppDispatch } from "../hooks";
 import { useEffect } from "react";
-import { getProducts, getProductCategories } from "../store/products/actions";
 import Navbar from "../components/navbar";
 import { Container } from "@mui/material";
 import ProductGrid from "../components/productGrid";
 import Progress from "../components/progressBar";
+import { getProductCategories, getProducts } from "../store/products/actions";
+import { clearCart } from "../store/cart/reducer";
 
 export default function Home() {
-  const { products, categories, getProductsPending, getProductsFailed } =
-    useSelector((state: RootState) => state.products);
-  const { list } = useSelector((state: RootState) => state.cart);
-  const dispatch: AppDispatch = useDispatch();
+  const { products, categories, getProductsPending } = useAppSelector(
+    (state) => state.products
+  );
+  const { list } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getProducts());

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../models/Product";
 
 export interface ProductsState {
-  oldProducts: Product[];
+  allProducts: Product[];
   products: Product[];
   categories: string[];
   getProductsPending: boolean;
@@ -14,7 +14,7 @@ export interface ProductsState {
 }
 
 const initialState: ProductsState = {
-  oldProducts: [],
+  allProducts: [],
   products: [],
   categories: [],
   getProductsPending: false,
@@ -36,6 +36,7 @@ export const productsSlice = createSlice({
     },
     getProductsSuccess: (state, action: PayloadAction<Product[]>) => {
       (state.products = action.payload),
+        (state.allProducts = action.payload),
         (state.getProductsPending = false),
         (state.getProductsFailed = false);
     },
@@ -62,33 +63,28 @@ export const productsSlice = createSlice({
     filterProductsByName: (state, action: PayloadAction<string>) => {
       const searchTerm = action.payload;
       if (searchTerm) {
-        // When filtering products, leave the rest in oldProducts array to show it again later.
-        if (!state.oldProducts.length) {
-          state.oldProducts = state.products;
-        }
         state.products = state.products.filter((product) =>
           product.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
       } else {
-        state.products = state.oldProducts;
+        state.products = state.allProducts;
       }
     },
     filterProductsByCategory: (state, action: PayloadAction<string>) => {
       const category = action.payload;
       if (category) {
-        // When filtering products, leave the rest in olFdProducts array to show it again later.
-        if (state.oldProducts.length) {
-          state.products = state.oldProducts.filter(
+        if (state.allProducts.length) {
+          state.products = state.allProducts.filter(
             (product) => product.category === category
           );
         } else {
-          state.oldProducts = state.products;
+          state.allProducts = state.products;
           state.products = state.products.filter(
             (product) => product.category === category
           );
         }
       } else {
-        state.products = state.oldProducts;
+        state.products = state.allProducts;
       }
     },
   },

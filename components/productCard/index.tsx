@@ -8,13 +8,12 @@ import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
 import useCart from "../../hooks/useCart";
 import { Alert, Button, Fade, Snackbar } from "@mui/material";
-import { CartItem } from "../../models/CartItem";
 import { resumeDescription } from "../../services/resumeDescription";
 import Link from "next/link";
 import AmountSelector from "../amountSelector";
 
 type Props = {
-  item: Product | CartItem;
+  item: Product;
 };
 
 const ProductCard: React.FC<Props> = ({ item }) => {
@@ -76,11 +75,12 @@ const ProductCard: React.FC<Props> = ({ item }) => {
                 </Typography>
                 <Typography variant="body2" gutterBottom>
                   {description}
-                  <Link href="/detail">
-                    <Typography color={theme.palette.success.main}>
-                      Learn more
-                    </Typography>
-                  </Link>
+                  <Typography
+                    sx={{ cursor: "pointer" }}
+                    color={theme.palette.success.main}
+                  >
+                    Learn more
+                  </Typography>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {item.category}

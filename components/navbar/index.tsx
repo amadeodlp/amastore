@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, MouseEvent } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,80 +8,128 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { Search, SearchIconWrapper, StyledInputBase } from "./styles";
-import Cart from "../cart";
+import CartButton from "../cart";
 import { Menu, useTheme } from "@mui/material";
-import { CartItem } from "../../models/CartItem";
+import { Cart } from "../../models/Cart";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import FontDownloadIcon from "@mui/icons-material/FontDownload";
 import useProduct from "../../hooks/useProduct";
 
 type Props = {
-  cartList: CartItem[];
+  cartList: Cart[];
   categories: string[];
 };
 const Navbar: React.FC<Props> = ({ cartList, categories }) => {
   const { filterProducts, filterCategories } = useProduct();
-  const [openNav, setOpenNav] = useState<boolean>(false);
-  const handleOpenNavMenu = () => {
-    setOpenNav(!openNav);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+
+  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
   };
+
+  const handleCloseNavMenu = (): void => {
+    setAnchorElNav(null);
+  };
+
   const handleProductSearch = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchTerm: string = event.currentTarget.value;
     if (!searchTerm || searchTerm.length >= 3) {
       filterProducts(searchTerm);
     }
   };
-  const handleCategorySearch = (category: string) => {
-    setOpenNav(false);
+  const handleCategorySearch = (category: string): void => {
+    setAnchorElNav(null);
     filterCategories(category);
   };
   const theme = useTheme();
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        sx={{
-          position: "fixed",
-          backgroundColor: theme.palette.common.black,
-        }}
-      >
-        <Toolbar sx={{ position: "relative", justifyContent: "center" }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            onClick={handleOpenNavMenu}
-            aria-label="open drawer"
-            aria-controls="menu-appbar"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-            <Menu
-              id="menu-appbar"
-              open={openNav}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-            >
-              {categories.map((category: string) => {
-                return (
-                  <MenuItem
-                    key={category}
-                    onClick={() => handleCategorySearch(category)}
-                  >
-                    <Typography textAlign="center">{category}</Typography>
-                  </MenuItem>
-                );
-              })}
-            </Menu>
-          </IconButton>
+    <AppBar
+      position="fixed"
+      sx={{ backgroundColor: theme.palette.common.black }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <FontDownloadIcon
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          />
           <Typography
             variant="h6"
             noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { md: "none", lg: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
           >
             AMASTORE
           </Typography>
-          <Cart list={cartList} />
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              <MenuItem onClick={() => handleCategorySearch("")}>
+                <Typography textAlign="center">ALL PRODUCTS</Typography>
+              </MenuItem>
+              {categories.map((category: string) => (
+                <MenuItem
+                  key={category}
+                  onClick={() => handleCategorySearch(category)}
+                >
+                  <Typography textAlign="center">{category}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <FontDownloadIcon
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+          />
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <MenuItem onClick={() => handleCategorySearch("")}>
+              <Typography textAlign="center">ALL PRODUCTS</Typography>
+            </MenuItem>
+            {categories.map((category) => (
+              <Button
+                key={category}
+                onClick={() => handleCategorySearch(category)}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                {category}
+              </Button>
+            ))}
+          </Box>
+          <CartButton list={cartList} />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -95,8 +143,8 @@ const Navbar: React.FC<Props> = ({ cartList, categories }) => {
             />
           </Search>
         </Toolbar>
-      </AppBar>
-    </Box>
+      </Container>
+    </AppBar>
   );
 };
 

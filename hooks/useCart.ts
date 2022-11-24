@@ -1,7 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Cart } from "../models/Cart";
 import { Product } from "../models/Product";
 import { RootState, AppDispatch } from "../store";
-import { removeFromCart, addToCart } from "../store/cart/reducer";
+import {
+  removeFromCart,
+  addToCart,
+  updateProductInCart,
+  clearCart,
+} from "../store/cart/reducer";
 
 function useCart(product: Product, amount: number) {
   const cart = useSelector((state: RootState) => state.cart.list);
@@ -13,11 +19,30 @@ function useCart(product: Product, amount: number) {
       : dispatch(addToCart({ ...product, amount: amount }));
   };
 
+  const handleIncrementAmount = (): void => {
+    dispatch(updateProductInCart({ ...product, amount: amount + 1 }));
+  };
+
+  const handleDecrementAmount = (): void => {
+    dispatch(updateProductInCart({ ...product, amount: amount - 1 }));
+  };
+
+  const resetCart = (): void => {
+    dispatch(clearCart());
+  };
+
   const cartText = cart.find((c) => c.id === product.id)
     ? "Remove from cart"
     : "Add to cart";
 
-  return { updateCart, cartText, cart };
+  return {
+    updateCart,
+    cartText,
+    cart,
+    resetCart,
+    handleIncrementAmount,
+    handleDecrementAmount,
+  };
 }
 
 export default useCart;
