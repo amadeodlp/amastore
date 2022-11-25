@@ -9,8 +9,10 @@ type Props = {
 };
 
 const CartItem: React.FC<Props> = ({ item }) => {
-  const { cart, handleIncrementAmount, handleDecrementAmount, updateCart } =
-    useCart(item, item.amount);
+  const { handleIncrementAmount, handleDecrementAmount, updateCart } = useCart(
+    item,
+    item.amount
+  );
   const totalPrice = (item.amount * item.price).toFixed(2);
   return (
     <Container sx={{ display: "flex", flexDirection: "row" }}>

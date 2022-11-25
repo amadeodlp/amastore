@@ -2,14 +2,19 @@ import { Product } from "../../models/Product";
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Img } from "./styles";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import ButtonBase from "@mui/material/ButtonBase";
 import useCart from "../../hooks/useCart";
-import { Alert, Button, Fade, Snackbar } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Fade,
+  Snackbar,
+  Rating,
+  Typography,
+  ButtonBase,
+  Paper,
+  Grid,
+} from "@mui/material";
 import { resumeDescription } from "../../services/resumeDescription";
-import Link from "next/link";
 import AmountSelector from "../amountSelector";
 
 type Props = {
@@ -27,13 +32,11 @@ const ProductCard: React.FC<Props> = ({ item }) => {
   const handleDecrement = (): void => {
     setSelectedAmount(selectedAmount - 1);
   };
-
-  const theme = useTheme();
-  const description = resumeDescription(item.description);
-  const handleUpdateCart = (): any => {
+  const description: string = resumeDescription(item.description);
+  const handleUpdateCart = (): void => {
     setSelectedAmount(1);
     setToastOpen(true);
-    return updateCart();
+    updateCart();
   };
   const isItemInCart = cart.find((product) => product.id === item.id);
   return (
@@ -75,16 +78,16 @@ const ProductCard: React.FC<Props> = ({ item }) => {
                 </Typography>
                 <Typography variant="body2" gutterBottom>
                   {description}
-                  <Typography
-                    sx={{ cursor: "pointer" }}
-                    color={theme.palette.success.main}
-                  >
-                    Learn more
-                  </Typography>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {item.category}
                 </Typography>
+                <Rating
+                  name="size-small"
+                  value={item.rating.rate}
+                  size="small"
+                  sx={{ padding: 3 }}
+                />
               </Grid>
               <Grid item sx={{ display: "flex", flexDirection: "row" }}>
                 <Button onClick={handleUpdateCart}>

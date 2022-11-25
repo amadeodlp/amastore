@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Cart } from "../models/Cart";
 import { Product } from "../models/Product";
 import { RootState, AppDispatch } from "../store";
 import {
@@ -31,7 +30,7 @@ function useCart(product: Product, amount: number) {
     dispatch(clearCart());
   };
 
-  const cartText = cart.find((c) => c.id === product.id)
+  const cartText: string = cart.find((c) => c.id === product.id)
     ? "Remove from cart"
     : "Add to cart";
 

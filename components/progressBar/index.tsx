@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Container, LinearProgress } from "@mui/material";
+import { Container, LinearProgress } from "@mui/material";
 
 type Props = {};
 
@@ -8,7 +8,7 @@ const Progress: React.FC<Props> = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((oldProgress) => {
+      setProgress((oldProgress): number => {
         if (oldProgress === 100) {
           return 0;
         }

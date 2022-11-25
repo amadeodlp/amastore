@@ -1,19 +1,22 @@
 import React, { ChangeEvent, useState, MouseEvent } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import FontDownloadIcon from "@mui/icons-material/FontDownload";
 import { Search, SearchIconWrapper, StyledInputBase } from "./styles";
 import CartButton from "../cart";
-import { Menu, useTheme } from "@mui/material";
 import { Cart } from "../../models/Cart";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import FontDownloadIcon from "@mui/icons-material/FontDownload";
+import {
+  Container,
+  Menu,
+  useTheme,
+  Typography,
+  IconButton,
+  Toolbar,
+  Box,
+  AppBar,
+  MenuItem,
+  Button,
+} from "@mui/material";
 import useProduct from "../../hooks/useProduct";
 
 type Props = {
@@ -24,7 +27,7 @@ const Navbar: React.FC<Props> = ({ cartList, categories }) => {
   const { filterProducts, filterCategories } = useProduct();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
+  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>): void => {
     setAnchorElNav(event.currentTarget);
   };
 
