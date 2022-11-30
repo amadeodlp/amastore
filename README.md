@@ -10,4 +10,6 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 
+To launch tests: npm test
+
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as API routes instead of pages.
